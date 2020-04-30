@@ -24,4 +24,14 @@ Route::group([
     Route::post('register', 'Auth\RegisterController@create');
 });
 
-Route::apiResource('movies', 'Api\MovieController');
+Route::group(
+    [
+        'middleware' => 'api',
+        'prefix' => 'movies'
+    ],
+    function ($router) {
+        Route::get('all', 'Api\MovieController@index');
+        Route::get('getPage', 'Api\MovieController@getCurrentPage');
+        Route::get('movie/{id}', 'Api\MovieController@show');
+    }
+);
