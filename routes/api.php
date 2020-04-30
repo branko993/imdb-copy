@@ -31,6 +31,7 @@ Route::group(
     ],
     function ($router) {
         Route::get('all', 'Api\MovieController@index');
-        Route::get('{id}', 'Api\MovieController@show');
+        Route::get('getPage', 'Api\MovieController@getCurrentPage');
+        Route::get('movie/{id}', 'Api\MovieController@show');
     }
 );

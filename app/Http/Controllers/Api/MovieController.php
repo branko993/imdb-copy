@@ -4,10 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Movie;
+use App\Services\MoviesService;
 
 class MovieController extends Controller
 {
+    private $movieService;
+
+    public function __construct(MoviesService $movieService)
+    {
+        $this->movieService = $movieService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +22,7 @@ class MovieController extends Controller
      */
     public function index()
     {
-        return Movie::all();
+        return $this->movieService->findAll();
     }
 
     /**
@@ -37,7 +44,7 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        return Movie::where('id', $id)->first();
+        return $this->movieService->findByid($id);
     }
 
     /**
@@ -61,5 +68,17 @@ class MovieController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Show all movies for the current page.
+     *
+     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     */
+    public function getCurrentPage(Request $request)
+    {
+        $size = $request->query('size');
+        return $this->movieService->findCurrentPage($size);;
     }
 }
