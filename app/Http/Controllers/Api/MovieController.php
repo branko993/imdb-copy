@@ -34,8 +34,7 @@ class MovieController extends Controller
      */
     public function store(CreateMovieRequest $request)
     {
-        $request->validated();
-        $movie = $request->all();
+        $movie = $request->validated();
         return $this->movieService->create($movie, auth()->user());
     }
 
