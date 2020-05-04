@@ -33,7 +33,9 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $movie = $request->all();
+        $id = auth()->user()->id;
+        return $this->movieService->create($movie, $id);
     }
 
     /**

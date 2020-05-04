@@ -37,4 +37,17 @@ class MoviesService
     {
         return Movie::paginate($size);
     }
+
+    /**
+     * Creates new movie in Moves table.
+     *
+     * @param Movie $movie
+     * @return \Illuminate\Http\Response
+     */
+    public function create($movie, $id)
+    {
+        $movie['user_id'] = $id;
+        Movie::create($movie);
+        return response('OK', 200);
+    }
 }
