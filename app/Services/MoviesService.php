@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Movie;
+use App\User;
 
 class MoviesService
 {
@@ -44,7 +45,7 @@ class MoviesService
      * @param Movie $movie
      * @return \Illuminate\Http\Response
      */
-    public function create($movie, $user)
+    public function create(array $movie, User $user): Movie
     {
         $movie['user_id'] = $user->id;
         return Movie::create($movie);
