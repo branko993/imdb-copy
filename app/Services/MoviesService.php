@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Movie;
+use App\User;
 
 class MoviesService
 {
@@ -36,5 +37,17 @@ class MoviesService
     public function findCurrentPage($size)
     {
         return Movie::paginate($size);
+    }
+
+    /**
+     * Creates new movie in Moves table.
+     *
+     * @param Movie $movie
+     * @return \Illuminate\Http\Response
+     */
+    public function create(array $movie, User $user): Movie
+    {
+        $movie['user_id'] = $user->id;
+        return Movie::create($movie);
     }
 }

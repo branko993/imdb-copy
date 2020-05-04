@@ -35,3 +35,23 @@ Route::group(
         Route::get('movie/{id}', 'Api\MovieController@show');
     }
 );
+
+Route::group(
+    [
+        'middleware' => 'auth',
+        'prefix' => 'movies'
+    ],
+    function ($router) {
+        Route::post('create', 'Api\MovieController@store');
+    }
+);
+
+Route::group(
+    [
+        'middleware' => 'auth',
+        'prefix' => 'genre'
+    ],
+    function ($router) {
+        Route::get('all', 'Api\GenreController@index');
+    }
+);
