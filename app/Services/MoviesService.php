@@ -44,10 +44,9 @@ class MoviesService
      * @param Movie $movie
      * @return \Illuminate\Http\Response
      */
-    public function create($movie, $id)
+    public function create($movie, $user)
     {
-        $movie['user_id'] = $id;
-        Movie::create($movie);
-        return response('OK', 200);
+        $movie['user_id'] = $user->id;
+        return Movie::create($movie);
     }
 }
