@@ -21,9 +21,9 @@ class MoviesService
      * Find movie with specific id.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Movie
      */
-    public function findById($id)
+    public function findById($id): Movie
     {
         return Movie::where('id', $id)->firstOrFail();
     }
@@ -43,7 +43,7 @@ class MoviesService
      * Creates new movie in Moves table.
      *
      * @param Movie $movie
-     * @return \Illuminate\Http\Response
+     * @return Movie
      */
     public function create(array $movie, User $user): Movie
     {

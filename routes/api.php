@@ -43,6 +43,8 @@ Route::group(
     ],
     function ($router) {
         Route::post('create', 'Api\MovieController@store');
+        Route::post('{id}/like', 'Api\MovieController@likeMovie');
+        Route::post('{id}/dislike', 'Api\MovieController@dislikeMovie');
     }
 );
 
