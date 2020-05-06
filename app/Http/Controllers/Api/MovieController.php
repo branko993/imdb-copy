@@ -8,8 +8,6 @@ use App\Http\Requests\CreateMovieRequest;
 use App\Services\DislikeService;
 use App\Services\MoviesService;
 use App\Services\LikeService;
-use Exception;
-use Illuminate\Http\JsonResponse;
 
 class MovieController extends Controller
 {
@@ -31,7 +29,7 @@ class MovieController extends Controller
      */
     public function index()
     {
-        return $this->movieService->findAll();
+        return $this->movieService->findAll(auth()->user());
     }
 
     /**
@@ -54,7 +52,8 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        return $this->movieService->findByid($id);
+        $movie = $this->movieService->findByid($id, auth()->user());
+        return $movie;
     }
 
     /**
@@ -89,7 +88,7 @@ class MovieController extends Controller
     public function getCurrentPage(Request $request)
     {
         $size = $request->query('size');
-        return $this->movieService->findCurrentPage($size);;
+        return $this->movieService->findCurrentPage($size, auth()->user());
     }
 
     /**
@@ -100,11 +99,11 @@ class MovieController extends Controller
      */
     public function likeMovie($id)
     {
-        $movie = $this->movieService->findByid($id);
+        $movie = $this->movieService->findByid($id, auth()->user());
         switch ($movie) {
-            case $movie->getLikedByUserAttribute():
+            case $movie->likes_count > 0:
                 return $this->likeService->destroy(auth()->user(), $movie);
-            case $movie->getDislikedByUserAttribute():
+            case $movie->dislikes_count > 0:
                 return $this->likeService->dislikeIntoLike(auth()->user(), $movie);
             default:
                 return $this->likeService->create(auth()->user(), $movie);
@@ -119,11 +118,11 @@ class MovieController extends Controller
      */
     public function dislikeMovie($id)
     {
-        $movie = $this->movieService->findByid($id);
+        $movie = $this->movieService->findByid($id, auth()->user());
         switch ($movie) {
-            case $movie->getLikedByUserAttribute():
+            case $movie->likes_count > 0:
                 return $this->dislikeService->likeIntoDislike(auth()->user(), $movie);
-            case $movie->getDislikedByUserAttribute():
+            case $movie->dislikes_count > 0:
                 return $this->dislikeService->destroy(auth()->user(), $movie);
             default:
                 return $this->dislikeService->create(auth()->user(), $movie);

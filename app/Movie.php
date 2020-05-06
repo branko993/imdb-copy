@@ -15,8 +15,8 @@ class Movie extends Model
      *
      * @var array
      */
-    protected $appends = ['total_likes', 'liked_by_user', 'total_dislikes', 'disliked_by_user'];
-
+    protected $appends = ['total_likes', 'total_dislikes'];
+    
     function likes()
     {
         return $this->hasMany(Like::class);
@@ -35,18 +35,6 @@ class Movie extends Model
         return $this->likes()->count();
     }
 
-    /**
-     * Checks if current user liked movie.
-     */
-    public function getLikedByUserAttribute()
-    {
-        if (auth()->user() != null) {
-            $user_id = auth()->user()->id;
-            return $this->likes()->where('user_id', $user_id)->get()->isNotEmpty();
-        } else {
-            return false;
-        }
-    }
 
     /**
      * Get all of the dislikes for the movie.
@@ -56,16 +44,4 @@ class Movie extends Model
         return $this->dislikes()->count();
     }
 
-    /**
-     * Checks if current user disliked movie.
-     */
-    public function getDislikedByUserAttribute()
-    {
-        if (auth()->user() != null) {
-            $user_id = auth()->user()->id;
-            return $this->dislikes()->where('user_id', $user_id)->get()->isNotEmpty();
-        } else {
-            return false;
-        }
-    }
 }

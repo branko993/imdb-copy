@@ -19,8 +19,10 @@ class LikeService
      */
     public function create(User $user, Movie $movie): Like
     {
-        $like['movie_id'] = $movie->id;
-        $like['user_id'] = $user->id;
+        $like = array(
+            'movie_id' => $movie->id,
+            'user_id' => $user->id
+        );
 
         return Like::create($like);
     }
@@ -35,10 +37,8 @@ class LikeService
     public function destroy(User $user, Movie $movie)
     {
         Like::where([['movie_id', '=', $movie->id], ['user_id', '=', $user->id]])->delete();
-        $response = new JsonResponse([
-            'message' => 'Like removed successfully',
-        ], 200);
-        return $response;
+
+        return response(null);
     }
 
     /**
@@ -50,7 +50,7 @@ class LikeService
      */
     public function dislikeIntoLike(User $user, Movie $movie): Like
     {
-        Dislike::where([['movie_id', '=', $movie->id], ['user_id', '=', $user->id]])->delete();
+        Dislike::where('movie_id', '=', $movie->id)->where('user_id', '=', $user->id)->delete();
         return $this->create($user, $movie);
     }
 }
