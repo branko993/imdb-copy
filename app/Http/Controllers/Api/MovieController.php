@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateMovieRequest;
+use App\Movie;
 use App\Services\DislikeService;
 use App\Services\MoviesService;
 use App\Services\LikeService;
@@ -53,6 +54,7 @@ class MovieController extends Controller
     public function show($id)
     {
         $movie = $this->movieService->findByid($id, auth()->user());
+        // $movie->increment('views');
         return $movie;
     }
 
@@ -88,7 +90,9 @@ class MovieController extends Controller
     public function getCurrentPage(Request $request)
     {
         $size = $request->query('size');
-        return $this->movieService->findCurrentPage($size, auth()->user());
+        $title = $request->query('title');
+        $genre = $request->query('genreId');
+        return $this->movieService->findCurrentPage($size, $title, $genre, auth()->user());
     }
 
     /**
