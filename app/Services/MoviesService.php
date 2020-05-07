@@ -47,19 +47,20 @@ class MoviesService
     /**
      * Returns current page with specific size.
      *
-     * @param int $size
+     * @param  \Illuminate\Http\Request  $request
+     * @param  User  $user
      * @return \Illuminate\Http\Response
      */
-    public function findCurrentPage($size, $user)
+    public function findCurrentPage($request, $user)
     {
         if ($user != null) {
             return Movie::withCount(['likes' => function ($query)  use ($user) {
                 return $query->where('user_id', $user->id);
             }])->withCount(['dislikes' => function ($query)  use ($user) {
                 return $query->where('user_id', $user->id);
-            }])->paginate($size);
+            }])->applyMovieFilters($request)->paginate($request->query('size'));
         } else {
-            return Movie::paginate($size);
+            return Movie::applyMovieFilters($request)->paginate($request->query('size'));
         }
     }
 

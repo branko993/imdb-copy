@@ -50,7 +50,7 @@ Route::group(
 
 Route::group(
     [
-        'middleware' => 'auth',
+        'middleware' => 'api',
         'prefix' => 'genre'
     ],
     function ($router) {

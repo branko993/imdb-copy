@@ -16,7 +16,7 @@ class Movie extends Model
      * @var array
      */
     protected $appends = ['total_likes', 'total_dislikes'];
-    
+
     function likes()
     {
         return $this->hasMany(Like::class);
@@ -44,4 +44,13 @@ class Movie extends Model
         return $this->dislikes()->count();
     }
 
+    public function scopeApplyMovieFilters($query, $request)
+    {
+        if ($request->has('title')) {
+            $query->whereRaw("LOWER(title) LIKE '%" . strtolower($request->query('title')) . "%'");
+        }
+        if ($request->has('genreId')) {
+            $query->where('genre_id', 'LIKE', '%' . $request->query('genreId') . '%');
+        }
+    }
 }
