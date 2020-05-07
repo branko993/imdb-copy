@@ -33,6 +33,7 @@ Route::group(
         Route::get('all', 'Api\MovieController@index');
         Route::get('getPage', 'Api\MovieController@getCurrentPage');
         Route::get('movie/{id}', 'Api\MovieController@show');
+        Route::get('{id}/comments', 'Api\MovieCommentsController@getCurrentPage');
     }
 );
 
@@ -45,6 +46,7 @@ Route::group(
         Route::post('create', 'Api\MovieController@store');
         Route::post('{id}/like', 'Api\MovieController@likeMovie');
         Route::post('{id}/dislike', 'Api\MovieController@dislikeMovie');
+        Route::post('{id}/createComment', 'Api\MovieCommentsController@store');
     }
 );
 

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateMovieRequest;
-use App\Movie;
 use App\Services\DislikeService;
 use App\Services\MoviesService;
 use App\Services\LikeService;
@@ -54,7 +53,7 @@ class MovieController extends Controller
     public function show($id)
     {
         $movie = $this->movieService->findByid($id, auth()->user());
-        // $movie->increment('views');
+        $movie->increment('views');
         return $movie;
     }
 

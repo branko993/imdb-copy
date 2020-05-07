@@ -10,7 +10,7 @@ class Like extends Model
         'user_id', 'movie_id'
     ];
 
-    public function likes()
+    public function movie()
     {
         return $this->belongsTo(Movie::class);
     }
