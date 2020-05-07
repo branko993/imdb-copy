@@ -5,15 +5,21 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateMovieRequest;
+use App\Services\DislikeService;
 use App\Services\MoviesService;
+use App\Services\LikeService;
 
 class MovieController extends Controller
 {
     private $movieService;
+    private $likeService;
+    private $dislikeService;
 
-    public function __construct(MoviesService $movieService)
+    public function __construct(MoviesService $movieService, LikeService $likeService, DislikeService $dislikeService)
     {
         $this->movieService = $movieService;
+        $this->likeService = $likeService;
+        $this->dislikeService = $dislikeService;
     }
 
     /**
@@ -23,7 +29,7 @@ class MovieController extends Controller
      */
     public function index()
     {
-        return $this->movieService->findAll();
+        return $this->movieService->findAll(auth()->user());
     }
 
     /**
@@ -46,7 +52,8 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        return $this->movieService->findByid($id);
+        $movie = $this->movieService->findByid($id, auth()->user());
+        return $movie;
     }
 
     /**
@@ -75,12 +82,50 @@ class MovieController extends Controller
     /**
      * Show all movies for the current page.
      *
-     * @return \Illuminate\Http\Response
      * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function getCurrentPage(Request $request)
     {
         $size = $request->query('size');
-        return $this->movieService->findCurrentPage($size);;
+        return $this->movieService->findCurrentPage($size, auth()->user());
+    }
+
+    /**
+     * Like functionality for current user.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function likeMovie($id)
+    {
+        $movie = $this->movieService->findByid($id, auth()->user());
+        switch ($movie) {
+            case $movie->likes_count > 0:
+                return $this->likeService->destroy(auth()->user(), $movie);
+            case $movie->dislikes_count > 0:
+                return $this->likeService->dislikeIntoLike(auth()->user(), $movie);
+            default:
+                return $this->likeService->create(auth()->user(), $movie);
+        }
+    }
+
+    /**
+     * Dislike functionality for current user.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function dislikeMovie($id)
+    {
+        $movie = $this->movieService->findByid($id, auth()->user());
+        switch ($movie) {
+            case $movie->likes_count > 0:
+                return $this->dislikeService->likeIntoDislike(auth()->user(), $movie);
+            case $movie->dislikes_count > 0:
+                return $this->dislikeService->destroy(auth()->user(), $movie);
+            default:
+                return $this->dislikeService->create(auth()->user(), $movie);
+        }
     }
 }

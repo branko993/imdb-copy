@@ -12,20 +12,36 @@ class MoviesService
      *
      * @return \Illuminate\Http\Response
      */
-    public function findAll()
+    public function findAll($user)
     {
-        return Movie::all();
+        if ($user != null) {
+            return Movie::withCount(['likes' => function ($query)  use ($user) {
+                return $query->where('user_id', $user->id);
+            }])->withCount(['dislikes' => function ($query)  use ($user) {
+                return $query->where('user_id', $user->id);
+            }])->get();
+        } else {
+            return Movie::all();
+        }
     }
 
     /**
      * Find movie with specific id.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Movie
      */
-    public function findById($id)
+    public function findById($id, $user): Movie
     {
-        return Movie::where('id', $id)->firstOrFail();
+        if ($user != null) {
+            return Movie::withCount(['likes' => function ($query)  use ($user) {
+                return $query->where('user_id', $user->id);
+            }])->withCount(['dislikes' => function ($query)  use ($user) {
+                return $query->where('user_id', $user->id);
+            }])->where('id', $id)->firstOrFail();
+        } else {
+            return Movie::where('id', $id)->firstOrFail();
+        }
     }
 
     /**
@@ -34,16 +50,24 @@ class MoviesService
      * @param int $size
      * @return \Illuminate\Http\Response
      */
-    public function findCurrentPage($size)
+    public function findCurrentPage($size, $user)
     {
-        return Movie::paginate($size);
+        if ($user != null) {
+            return Movie::withCount(['likes' => function ($query)  use ($user) {
+                return $query->where('user_id', $user->id);
+            }])->withCount(['dislikes' => function ($query)  use ($user) {
+                return $query->where('user_id', $user->id);
+            }])->paginate($size);
+        } else {
+            return Movie::paginate($size);
+        }
     }
 
     /**
      * Creates new movie in Moves table.
      *
      * @param Movie $movie
-     * @return \Illuminate\Http\Response
+     * @return Movie
      */
     public function create(array $movie, User $user): Movie
     {
