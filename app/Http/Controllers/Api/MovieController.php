@@ -54,6 +54,7 @@ class MovieController extends Controller
     public function show($id)
     {
         $movie = $this->movieService->findByid($id, auth()->user());
+        // $movie->increment('views');
         return $movie;
     }
 
@@ -88,7 +89,10 @@ class MovieController extends Controller
      */
     public function getCurrentPage(Request $request)
     {
-        return $this->movieService->findCurrentPage($request, auth()->user());
+        $size = $request->query('size');
+        $title = $request->query('title');
+        $genre = $request->query('genreId');
+        return $this->movieService->findCurrentPage($size, $title, $genre, auth()->user());
     }
 
     /**

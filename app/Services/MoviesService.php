@@ -51,16 +51,16 @@ class MoviesService
      * @param  User  $user
      * @return \Illuminate\Http\Response
      */
-    public function findCurrentPage($request, $user)
+    public function findCurrentPage($size, $title, $genre, $user)
     {
         if ($user != null) {
             return Movie::withCount(['likes' => function ($query)  use ($user) {
                 return $query->where('user_id', $user->id);
             }])->withCount(['dislikes' => function ($query)  use ($user) {
                 return $query->where('user_id', $user->id);
-            }])->applyMovieFilters($request)->paginate($request->query('size'));
+            }])->filterByTitleAndGenre($title, $genre)->paginate($size);
         } else {
-            return Movie::applyMovieFilters($request)->paginate($request->query('size'));
+            return Movie::filterByTitleAndGenre($title, $genre)->paginate($size);
         }
     }
 

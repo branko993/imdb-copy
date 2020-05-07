@@ -44,13 +44,13 @@ class Movie extends Model
         return $this->dislikes()->count();
     }
 
-    public function scopeApplyMovieFilters($query, $request)
+    public function scopeFilterByTitleAndGenre($query, $title, $genre)
     {
-        if ($request->has('title')) {
-            $query->whereRaw("LOWER(title) LIKE '%" . strtolower($request->query('title')) . "%'");
+        if ($title != null) {
+            $query->whereRaw("LOWER(title) LIKE '%" . strtolower($title) . "%'");
         }
-        if ($request->has('genreId')) {
-            $query->where('genre_id', 'LIKE', '%' . $request->query('genreId') . '%');
+        if ($genre != null) {
+            $query->where('genre_id', 'LIKE', '%' . $genre . '%');
         }
     }
 }
