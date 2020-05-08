@@ -37,9 +37,9 @@ class MovieCommentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function getCurrentPage(Request $request)
+    public function getCurrentPage($id, Request $request)
     {
         $size = $request->query('size');
-        return $this->commentsService->findCurrentPage($size, auth()->user());
+        return $this->commentsService->findCurrentPage($id, $size, auth()->user());
     }
 }

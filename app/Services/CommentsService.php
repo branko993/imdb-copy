@@ -15,9 +15,9 @@ class CommentsService
      * @param  int  $size
      * @return \Illuminate\Http\Response
      */
-    public function findCurrentPage($size)
+    public function findCurrentPage($movie_id, $size)
     {
-        return Comments::with('user')->paginate($size);
+        return Comments::with('user')->where('movie_id', $movie_id)->paginate($size);
     }
 
     /**
