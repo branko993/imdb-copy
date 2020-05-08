@@ -10,7 +10,7 @@ class Dislike extends Model
         'user_id', 'movie_id'
     ];
 
-    public function dislikes()
+    public function movie()
     {
         return $this->belongsTo(Movie::class);
     }
