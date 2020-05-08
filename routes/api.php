@@ -46,7 +46,7 @@ Route::group(
         Route::post('create', 'Api\MovieController@store');
         Route::post('{id}/like', 'Api\MovieController@likeMovie');
         Route::post('{id}/dislike', 'Api\MovieController@dislikeMovie');
-        Route::post('{id}/createComment', 'Api\MovieCommentsController@store');
+        Route::post('{id}/comments', 'Api\MovieCommentsController@store');
     }
 );
 
