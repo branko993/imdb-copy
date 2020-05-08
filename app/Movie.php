@@ -27,6 +27,11 @@ class Movie extends Model
         return $this->hasMany(Dislike::class);
     }
 
+    function watchList()
+    {
+        return $this->hasMany(WatchList::class);
+    }
+
     /**
      * Get all of the likes for the movie.
      */

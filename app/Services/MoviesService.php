@@ -19,6 +19,8 @@ class MoviesService
                 return $query->where('user_id', $user->id);
             }])->withCount(['dislikes' => function ($query)  use ($user) {
                 return $query->where('user_id', $user->id);
+            }])->with(['watchList' => function ($query)  use ($user) {
+                return $query->where('user_id', $user->id);
             }])->get();
         } else {
             return Movie::all();
@@ -37,6 +39,8 @@ class MoviesService
             return Movie::withCount(['likes' => function ($query)  use ($user) {
                 return $query->where('user_id', $user->id);
             }])->withCount(['dislikes' => function ($query)  use ($user) {
+                return $query->where('user_id', $user->id);
+            }])->with(['watchList' => function ($query)  use ($user) {
                 return $query->where('user_id', $user->id);
             }])->where('id', $id)->firstOrFail();
         } else {
@@ -57,6 +61,8 @@ class MoviesService
             return Movie::withCount(['likes' => function ($query)  use ($user) {
                 return $query->where('user_id', $user->id);
             }])->withCount(['dislikes' => function ($query)  use ($user) {
+                return $query->where('user_id', $user->id);
+            }])->with(['watchList' => function ($query)  use ($user) {
                 return $query->where('user_id', $user->id);
             }])->filterByTitleAndGenre($title, $genre)->paginate($size);
         } else {
