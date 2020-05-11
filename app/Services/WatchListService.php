@@ -36,60 +36,36 @@ class WatchListService
     /**
      * Markes movie as watched
      *
-     * @param int $id
+     * @param WatchList $watchList
      * @param User $user
      * @return Comments
      */
-    public function markAsWatched(int $id, User $user)
+    public function markAsWatched(WatchList $watchList)
     {
-        $watchList = WatchList::where('id', $id)->firstOrFail();
-        if ($user->can('update', $watchList)) {
-            return tap($watchList)->update(['watched' => 1]);
-        } else {
-            return response(
-                ['message' => 'Permission denied!'],
-                403
-            );
-        }
+        return tap($watchList)->update(['watched' => 1]);
     }
 
     /**
      * Unmarkes movie as watched
      *
-     * @param int $id
+     * @param WatchList $watchList
      * @param User $user
      * @return Comments
      */
-    public function unmarkAsWatched(int $id, User $user)
+    public function unmarkAsWatched(WatchList $watchList)
     {
-        $watchList = WatchList::where('id', $id)->firstOrFail();
-        if ($user->can('update', $watchList)) {
-            return tap($watchList)->update(['watched' => 0]);
-        } else {
-            return response(
-                ['message' => 'Permission denied!'],
-                403
-            );
-        }
+        return tap($watchList)->update(['watched' => 0]);
     }
 
     /**
      * removes movie from watch list
      *
-     * @param int $id
+     * @param WatchList $watchList
      * @param User $user
      * @return void
      */
-    public function remove(int $id, $user)
+    public function remove(WatchList $watchList)
     {
-        $watchList = WatchList::where('id', $id)->firstOrFail();
-        if ($user->can('delete', $watchList)) {
-            return tap($watchList)->delete();
-        } else {
-            return response(
-                ['message' => 'Permission denied!'],
-                403
-            );
-        }
+        return tap($watchList)->delete();
     }
 }

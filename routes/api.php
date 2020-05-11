@@ -68,8 +68,8 @@ Route::group(
     function ($router) {
         Route::get('watchList', 'Api\WatchListController@get');
         Route::post('watchList', 'Api\WatchListController@add');
-        Route::post('watchList/{id}/mark', 'Api\WatchListController@markAsWatched');
-        Route::post('watchList/{id}/unmark', 'Api\WatchListController@unmarkAsWatched');
-        Route::delete('watchList/{id}/remove', 'Api\WatchListController@remove');
+        Route::post('watchList/{watchList}/mark', 'Api\WatchListController@markAsWatched')->middleware('can:update,watchList');
+        Route::post('watchList/{watchList}/unmark', 'Api\WatchListController@unmarkAsWatched')->middleware('can:update,watchList');
+        Route::delete('watchList/{watchList}/remove', 'Api\WatchListController@remove')->middleware('can:delete,watchList');
     }
 );

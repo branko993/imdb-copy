@@ -29,7 +29,7 @@ class Movie extends Model
 
     function watchList()
     {
-        return $this->hasMany(WatchList::class);
+        return $this->hasOne(WatchList::class)->latest();
     }
 
     /**

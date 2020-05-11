@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\WatchListService;
+use App\WatchList;
 
 class WatchListController extends Controller
 {
@@ -38,31 +39,33 @@ class WatchListController extends Controller
     /**
      * Updates watchlist movie to watched
      * @param Request $request
+     * @param WatchList $watchList
      * @return \Illuminate\Http\Response
      */
-    public function markAsWatched($id)
+    public function markAsWatched(WatchList $watchList)
     {
-        return $this->watchListService->markAsWatched($id, auth()->user());
+        return $this->watchListService->markAsWatched($watchList);
     }
 
     /**
      * Updates watchlist movie to watched
      * @param Request $request
+     * @param WatchList $watchList
      * @return \Illuminate\Http\Response
      */
-    public function unmarkAsWatched($id)
+    public function unmarkAsWatched(WatchList $watchList)
     {
-        return $this->watchListService->unmarkAsWatched($id, auth()->user());
+        return $this->watchListService->unmarkAsWatched($watchList);
     }
 
     /**
      * Deletes movie from watchList
      *
-     * @param int $id
+     * @param WatchList $watchList
      * @return Comments
      */
-    public function remove(int $id)
+    public function remove(WatchList $watchList)
     {
-        return $this->watchListService->remove($id, auth()->user());
+        return $this->watchListService->remove($watchList);
     }
 }
