@@ -42,7 +42,7 @@ class WatchListController extends Controller
      */
     public function markAsWatched($id)
     {
-        return $this->watchListService->markAsWatched($id);
+        return $this->watchListService->markAsWatched($id, auth()->user());
     }
 
     /**
@@ -52,18 +52,7 @@ class WatchListController extends Controller
      */
     public function unmarkAsWatched($id)
     {
-        return $this->watchListService->unmarkAsWatched($id);
-    }
-
-    /**
-     * Check move as watched
-     *
-     * @param int $id
-     * @return Comments
-     */
-    public function isMovieWatched(int $movie_id)
-    {
-        return $this->watchListService->isMovieWatched($movie_id, auth()->user());
+        return $this->watchListService->unmarkAsWatched($id, auth()->user());
     }
 
     /**
@@ -74,6 +63,6 @@ class WatchListController extends Controller
      */
     public function remove(int $id)
     {
-        return $this->watchListService->remove($id);
+        return $this->watchListService->remove($id, auth()->user());
     }
 }
