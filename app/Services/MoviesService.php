@@ -63,4 +63,14 @@ class MoviesService
         $movie['user_id'] = $user->id;
         return Movie::create($movie);
     }
+
+    /**
+     * Find top 10 most liked movies for Movies table
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTopTenMovies()
+    {
+        return Movie::withCount('likes')->orderBy('likes_count', 'desc')->take(10)->get();
+    }
 }
