@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCommentRequest;
 use App\Services\CommentsService;
-use App\Services\MoviesService;
 
 class MovieCommentsController extends Controller
 {

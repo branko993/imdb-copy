@@ -15,11 +15,7 @@ class MoviesService
     public function findAll($user)
     {
         if ($user != null) {
-            return Movie::withCount(['likes' => function ($query)  use ($user) {
-                return $query->where('user_id', $user->id);
-            }])->withCount(['dislikes' => function ($query)  use ($user) {
-                return $query->where('user_id', $user->id);
-            }])->get();
+            return Movie::getAllQueryRelations($user)->get();
         } else {
             return Movie::all();
         }
@@ -34,11 +30,7 @@ class MoviesService
     public function findById($id, $user): Movie
     {
         if ($user != null) {
-            return Movie::withCount(['likes' => function ($query)  use ($user) {
-                return $query->where('user_id', $user->id);
-            }])->withCount(['dislikes' => function ($query)  use ($user) {
-                return $query->where('user_id', $user->id);
-            }])->where('id', $id)->firstOrFail();
+            return Movie::getAllQueryRelations($user)->where('id', $id)->firstOrFail();
         } else {
             return Movie::where('id', $id)->firstOrFail();
         }
@@ -54,11 +46,7 @@ class MoviesService
     public function findCurrentPage($size, $title, $genre, $user)
     {
         if ($user != null) {
-            return Movie::withCount(['likes' => function ($query)  use ($user) {
-                return $query->where('user_id', $user->id);
-            }])->withCount(['dislikes' => function ($query)  use ($user) {
-                return $query->where('user_id', $user->id);
-            }])->filterByTitleAndGenre($title, $genre)->paginate($size);
+            return Movie::getAllQueryRelations($user)->filterByTitleAndGenre($title, $genre)->paginate($size);
         } else {
             return Movie::filterByTitleAndGenre($title, $genre)->paginate($size);
         }

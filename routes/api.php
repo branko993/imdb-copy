@@ -59,3 +59,17 @@ Route::group(
         Route::get('all', 'Api\GenreController@index');
     }
 );
+
+Route::group(
+    [
+        'middleware' => 'auth',
+        'prefix' => 'user'
+    ],
+    function ($router) {
+        Route::get('watchList', 'Api\WatchListController@get');
+        Route::post('watchList', 'Api\WatchListController@add');
+        Route::post('watchList/{watchList}/mark', 'Api\WatchListController@markAsWatched')->middleware('can:update,watchList');
+        Route::post('watchList/{watchList}/unmark', 'Api\WatchListController@unmarkAsWatched')->middleware('can:update,watchList');
+        Route::delete('watchList/{watchList}/remove', 'Api\WatchListController@remove')->middleware('can:delete,watchList');
+    }
+);

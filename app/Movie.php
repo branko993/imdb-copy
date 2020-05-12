@@ -27,6 +27,11 @@ class Movie extends Model
         return $this->hasMany(Dislike::class);
     }
 
+    function watchList()
+    {
+        return $this->hasOne(WatchList::class)->latest();
+    }
+
     /**
      * Get all of the likes for the movie.
      */
@@ -52,5 +57,16 @@ class Movie extends Model
         if ($genre != null) {
             $query->where('genre_id', 'LIKE', '%' . $genre . '%');
         }
+    }
+
+    public function scopeGetAllQueryRelations($query, $user)
+    {
+        $query->withCount(['likes' => function ($query)  use ($user) {
+            return $query->where('user_id', $user->id);
+        }])->withCount(['dislikes' => function ($query)  use ($user) {
+            return $query->where('user_id', $user->id);
+        }])->with(['watchList' => function ($query)  use ($user) {
+            return $query->where('user_id', $user->id);
+        }]);
     }
 }
