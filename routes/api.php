@@ -34,6 +34,7 @@ Route::group(
         Route::get('getPage', 'Api\MovieController@getCurrentPage');
         Route::get('movie/{id}', 'Api\MovieController@show');
         Route::get('{id}/comments', 'Api\MovieCommentsController@getCurrentPage');
+        Route::get('popular', 'Api\MovieController@getPopularMovies');
     }
 );
 

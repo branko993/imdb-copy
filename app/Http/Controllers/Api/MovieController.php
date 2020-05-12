@@ -131,4 +131,15 @@ class MovieController extends Controller
                 return $this->dislikeService->create(auth()->user(), $movie);
         }
     }
+
+    /**
+     * Returns list of top 10 liked movies
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getPopularMovies()
+    {
+        return $this->movieService->getTopTenMovies();
+    }
 }
