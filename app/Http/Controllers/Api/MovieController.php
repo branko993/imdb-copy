@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateMovieRequest;
+use App\Movie;
 use App\Services\DislikeService;
 use App\Services\MoviesService;
 use App\Services\LikeService;
@@ -141,5 +142,16 @@ class MovieController extends Controller
     public function getPopularMovies()
     {
         return $this->movieService->getTopTenMovies();
+    }
+
+     /**
+     * Returns list of top 10 related movies
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getRelatedMovies(Movie $movie)
+    {
+        return $this->movieService->getRelatedMovies($movie);
     }
 }
