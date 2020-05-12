@@ -71,6 +71,6 @@ class MoviesService
      */
     public function getTopTenMovies()
     {
-        return Movie::all()->SortByDesc('total_likes')->values()->take(10);
+        return Movie::withCount('likes')->orderBy('likes_count', 'desc')->take(10)->get();
     }
 }
