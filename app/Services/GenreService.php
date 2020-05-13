@@ -15,4 +15,15 @@ class GenreService
     {
         return Genre::all();
     }
+
+    /**
+     * Find movie from name.
+     *
+     * @param string $title
+     * @return \Illuminate\Http\Response
+     */
+    public function getByTitle(string $name)
+    {
+        return Genre::whereRaw("name LIKE '" . $name . "'")->firstOrFail();
+    }
 }
