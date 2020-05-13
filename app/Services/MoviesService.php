@@ -73,4 +73,15 @@ class MoviesService
     {
         return Movie::withCount('likes')->orderBy('likes_count', 'desc')->take(10)->get();
     }
+
+    /**
+     * Find 10 related movies
+     *
+     * @param Movie $movie
+     * @return \Illuminate\Http\Response
+     */
+    public function getRelatedMovies(Movie $movie)
+    {
+        return Movie::where("genre_id", $movie->genre_id)->where('id', '!=', $movie->id)->take(10)->get();
+    }
 }
