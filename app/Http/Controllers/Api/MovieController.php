@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\MovieCreation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateMovieRequest;
@@ -9,6 +10,7 @@ use App\Movie;
 use App\Services\DislikeService;
 use App\Services\MoviesService;
 use App\Services\LikeService;
+use Illuminate\Console\Scheduling\Event;
 
 class MovieController extends Controller
 {
@@ -41,8 +43,10 @@ class MovieController extends Controller
      */
     public function store(CreateMovieRequest $request)
     {
-        $movie = $request->validated();
-        return $this->movieService->create($movie, auth()->user());
+        $movieForCreation = $request->validated();
+        $movie = $this->movieService->create($movieForCreation, auth()->user());
+        MovieCreation::dispatch($movie);
+        return $movie;
     }
 
     /**
