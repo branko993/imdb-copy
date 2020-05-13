@@ -59,6 +59,7 @@ Route::group(
     ],
     function ($router) {
         Route::get('all', 'Api\GenreController@index');
+        Route::get('search', 'Api\GenreController@search');
     }
 );
 

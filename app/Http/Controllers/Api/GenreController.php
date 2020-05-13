@@ -50,10 +50,9 @@ class GenreController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $id)
     {
         //
     }
@@ -90,5 +89,15 @@ class GenreController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Search genre using name
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        return $this->genreService->getByTitle($request->query('name'));
     }
 }

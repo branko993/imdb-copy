@@ -26,7 +26,8 @@ class CreateMovieRequest extends FormRequest
         return [
             'title' => ['string', 'required', 'max:255'],
             'description' => ['string', 'required', 'max:255'],
-            'image_url' => ['required', 'max:255']
+            'image_url' => ['required', 'max:255'],
+            'genre_id' => ['integer'],
         ];
     }
 }
