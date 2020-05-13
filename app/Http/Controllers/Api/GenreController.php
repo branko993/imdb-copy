@@ -52,9 +52,9 @@ class GenreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show(Request $id)
     {
-        return $this->genreService->getByTitle($request->query('name'));
+        //
     }
 
     /**
@@ -89,5 +89,15 @@ class GenreController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Search genre using name
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        return $this->genreService->getByTitle($request->query('name'));
     }
 }

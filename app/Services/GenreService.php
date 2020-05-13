@@ -24,6 +24,6 @@ class GenreService
      */
     public function getByTitle(string $name)
     {
-        return Genre::whereRaw("name LIKE '" . $name . "'")->firstOrFail();
+        return Genre::where('name', 'like' , $name)->firstOrFail();
     }
 }
